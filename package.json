@@ -1,0 +1,14 @@
+{
+  "private": "true",
+  "name": "project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:gpatarin/docker-project.git",
+  "author": "gpatarin <gael.patarin@outlook.com>",
+  "license": "MIT",
+  "workspaces": [
+    "api",
+    "bot",
+    "frontend"
+  ]
+}
