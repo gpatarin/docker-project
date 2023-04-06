@@ -7,7 +7,7 @@ services:
       - ${API_PORT}:${API_PORT}
     environment:
       - PORT=${API_PORT}
-      - MONGO_URI=mongodb://db/poll
+      - MONGO_URI=${MONGO_URI}
 
   bot:
     build: ./bot
@@ -20,7 +20,7 @@ services:
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=api
+        - VITE_API_URL=http://localhost:${API_PORT}
     image: ynov/frontend
     ports:
       - ${FRONTEND_PORT}:80
