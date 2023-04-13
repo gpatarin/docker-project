@@ -32,8 +32,11 @@ mongoose
 
 const server = express();
 server.use(cors())
+server.use(express.json())
 
 server.post('/api/insert', async (req, res) => {
+  console.log(req);
+  console.log(req.body);
   const poll: Poll = req.body as Poll;
   try {
     const newPoll = new PollModel(poll);

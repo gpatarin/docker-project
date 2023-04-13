@@ -1,10 +1,6 @@
-import { CommandInteraction, Client, Interaction } from "discord.js";
+import { CommandInteraction, ButtonInteraction, Client, Interaction } from "discord.js";
 import { Commands } from "../commands";
-import express, { Express } from "express";
 
-const server = express();
-
-server.use(express.json());
 
 export interface Poll {
     id: string;
@@ -15,13 +11,15 @@ export interface Poll {
 
 export default (client: Client): void => {
     client.on("interactionCreate", async (interaction: Interaction) => {
-        if (interaction.isCommand()) {
-            await handleSlashCommand(client, interaction);
+        if (interaction.isCommand() || interaction.isChatInputCommand()) {
+            await handleSlashCommand(client, interaction, title);
+        } else if (interaction.isCommand()) {
+            
         }
     });
 };
 
-const handleSlashCommand = async (client: Client, interaction: CommandInteraction): Promise<void> => {
+const handleSlashCommand = async (client: Client, interaction: CommandInteraction, title: String): Promise<void> => {
     // handle slash command here
 
     const slashCommand = Commands.find(c => c.name === interaction.commandName);
@@ -32,21 +30,6 @@ const handleSlashCommand = async (client: Client, interaction: CommandInteractio
 
     await interaction.deferReply();
 
-    slashCommand.run(client, interaction);
+    slashCommand.run(client, interaction, title);
 
-    server.post('/api/insert', async (req, res) => {
-        const poll: Poll = req.body as Poll; 
-        try {
-        // const newPoll = new PollModel(poll);
-        // await newPoll.save();
-        res.status(201).send('Poll inserted successfully');
-        } catch (err) {
-        console.log(`Error inserting poll: ${err}`);
-        res.status(500).send('Internal server error');
-        }
-    });
-    
-    const apiUrl = 'http://localhost:4000/api/insert'; 
-
-}; 
-
+};
