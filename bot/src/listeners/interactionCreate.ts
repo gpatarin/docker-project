@@ -46,7 +46,7 @@ const handleSlashCommand = async (client: Client, interaction: CommandInteractio
         }
     });
     
-    const apiUrl = 'http://localhost:3000/api/insert'; 
+    const apiUrl = 'http://localhost:4000/api/insert'; 
 
 }; 
 
