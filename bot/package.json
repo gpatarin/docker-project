@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "build": "esbuild src/index.ts --platform=node --bundle --outfile=dist/index.js"
+    "build": "esbuild src/index.ts --platform=node --bundle --outfile=dist/index.js",
+    "start": "ts-node src/index.ts"
   },
   "dependencies": {
     "discord.js": "^14.9.0",
