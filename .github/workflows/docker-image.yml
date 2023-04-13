@@ -24,5 +24,4 @@ jobs:
         context: ./api
         file: ./Dockerfile
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ secrets.DOCKERHUB_USERNAME }}/api:latest
