@@ -8,3 +8,5 @@ RUN yarn && yarn build
 FROM nginx
 WORKDIR /usr/share/nginx/html
 COPY --from=build /build/dist/ .
+
+# On ne met pas de healthcheck car nginx est déjà scalable horizontalement et gérer par kubernetes 

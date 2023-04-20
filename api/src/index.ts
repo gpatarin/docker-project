@@ -34,6 +34,16 @@ const server = express();
 server.use(cors())
 server.use(express.json())
 
+server.get('/healthcheck', (req, res) => {
+  try {
+    mongoose.connection.db.admin().ping();
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(`Error pinging database: ${err}`);
+    res.sendStatus(500);
+  }
+});
+
 server.post('/api/insert', async (req, res) => {
   console.log(req);
   console.log(req.body);
