@@ -12,14 +12,14 @@ export interface Poll {
 export default (client: Client): void => {
     client.on("interactionCreate", async (interaction: Interaction) => {
         if (interaction.isCommand() || interaction.isChatInputCommand()) {
-            await handleSlashCommand(client, interaction, title);
+            await handleSlashCommand(client, interaction);
         } else if (interaction.isCommand()) {
             
         }
     });
 };
 
-const handleSlashCommand = async (client: Client, interaction: CommandInteraction, title: String): Promise<void> => {
+const handleSlashCommand = async (client: Client, interaction: CommandInteraction): Promise<void> => {
     // handle slash command here
 
     const slashCommand = Commands.find(c => c.name === interaction.commandName);
@@ -27,9 +27,8 @@ const handleSlashCommand = async (client: Client, interaction: CommandInteractio
         interaction.followUp({ content: "An error has occurred" });
         return;
     }
-
     await interaction.deferReply();
 
-    slashCommand.run(client, interaction, title);
+    slashCommand.run(client, interaction);
 
 };
