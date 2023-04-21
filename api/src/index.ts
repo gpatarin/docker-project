@@ -31,7 +31,7 @@ mongoose
 
 
 const server = express();
-server.use(cors())
+server.use(cors()) // DSL AMIEL PAS LE TEMPS DE CONFIG LE CORS DANS KUBE C'EST GÉRÉ TOUT SEUL
 server.use(express.json())
 
 server.get('/healthcheck', (req, res) => {

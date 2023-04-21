@@ -36,4 +36,6 @@ services:
   db:
     image: mongo
 
-# Pas besoins de healthcheck car inutile ici, le compose sert pour le développement local, kunernetes le gérera pour la prod
+# Pas besoins de healthcheck car inutile ici,
+# le compose sert pour le développement local, de toute façon ils sont dans les dockerfile et docker les prends meme en compose.
+# kubernetes le gérera pour la prod.
