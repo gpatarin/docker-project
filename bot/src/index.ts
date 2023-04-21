@@ -16,11 +16,11 @@ if (!GUILD_ID) throw Error('GUILD_ID not existing. You forgot to set it as env v
 const server = express();
 
 server.get('/', (req, res) => {
-res.status(201).send('OK');
+  res.status(201).send('OK');
 });
 
 server.listen(PORT, () => {
-console.log(`Listening on :${PORT}`)
+  console.log(`Listening on :${PORT}`)
 })
 
 server.get('/healthcheck', (req, res) => {
@@ -29,15 +29,16 @@ server.get('/healthcheck', (req, res) => {
     } else {
       res.status(500).send('Bot is not ready');
     }
-  });
-  
-
-
+});
 
 const BOT = new Client({
-    intents: [IntentsBitField.Flags.Guilds, IntentsBitField.Flags.GuildMessages, IntentsBitField.Flags.GuildMessageReactions]
-    });
-    
+    intents: [
+      IntentsBitField.Flags.Guilds,
+      IntentsBitField.Flags.GuildMessages,
+      IntentsBitField.Flags.GuildMessageReactions
+    ]
+});
+
 BOT.on("ready", async () => await onReady(BOT));
 
 BOT.on(
