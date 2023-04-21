@@ -45,8 +45,6 @@ server.get('/healthcheck', (req, res) => {
 });
 
 server.post('/api/insert', async (req, res) => {
-  console.log(req);
-  console.log(req.body);
   const poll: Poll = req.body as Poll;
   try {
     const newPoll = new PollModel(poll);
@@ -73,8 +71,8 @@ server.post('/api/update', async (req, res) => {
   }
 });
 
-server.post('api/addAgree', async (req, res) => {
-  const poll: Poll = await PollModel.findOne({ id: req.body }) as Poll;
+server.post('/api/addAgree', async (req, res) => {
+  const poll: Poll = await PollModel.findOne({ id: req.body.id }) as Poll;
   poll.agree++;
   try {
     const updatedPoll = await PollModel.findOneAndUpdate(
@@ -90,8 +88,8 @@ server.post('api/addAgree', async (req, res) => {
 });
 
 
-server.post('api/addDisagree', async (req, res) => {
-  const poll: Poll = await PollModel.findOne({ id: req.body }) as Poll;
+server.post('/api/addDisagree', async (req, res) => {
+  const poll: Poll = await PollModel.findOne({ id: req.body.id }) as Poll;
   poll.disagree++;
   try {
     const updatedPoll = await PollModel.findOneAndUpdate(
@@ -107,7 +105,7 @@ server.post('api/addDisagree', async (req, res) => {
 });
 
 server.post('/api/removeAgree', async (req, res) => {
-  const poll: Poll = await PollModel.findOne({ id: req.body }) as Poll;
+  const poll: Poll = await PollModel.findOne({ id: req.body.id }) as Poll;
   poll.agree--;
   try {
     const updatedPoll = await PollModel.findOneAndUpdate(
@@ -123,7 +121,7 @@ server.post('/api/removeAgree', async (req, res) => {
 });
 
 server.post('/api/removeDisagree', async (req, res) => {
-  const poll: Poll = await PollModel.findOne({ id: req.body }) as Poll;
+  const poll: Poll = await PollModel.findOne({ id: req.body.id }) as Poll;
   poll.disagree--;
   try {
     const updatedPoll = await PollModel.findOneAndUpdate(

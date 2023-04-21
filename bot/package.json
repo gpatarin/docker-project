@@ -9,7 +9,6 @@
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "api": "1.0.0",
     "axios": "^1.3.5",
     "discord.js": "^14.9.0",
     "express": "^4.18.2",

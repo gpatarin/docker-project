@@ -1,8 +1,10 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
+import * as dotenv from 'dotenv'
 import { Command } from "../interfaces/Command";
 import { AttachmentBuilder, EmbedBuilder, MessageReaction, ReactionEmoji } from "discord.js";
-import { Poll as IPoll } from 'api/src/model/Poll';
+import { Poll as IPoll } from '../model/Poll';
 import axios from "axios";
+dotenv.config()
 
 const API_URL = process.env['API_URL'];
 
@@ -62,7 +64,13 @@ export const poll: Command = {
       result: '',
     }
 
-    await API.post(`/api/insert`, body).catch((e) => console.log('Cannot insert'))
+    console.log('I will call API');
+
+
+    await API.post(`/api/insert`, body).catch((e) => console.log('Cannot insert', e))
+
+
+    console.log('I have called API');
 
     await message.react('👍');
     await message.react('👎');
@@ -76,8 +84,6 @@ export const poll: Command = {
         });
     }, 1000);
 
-
-
     const collector = message.createReactionCollector({ filter, time: timer, dispose: true});
 
     collector.on('collect', (reaction, user) => {
@@ -89,27 +95,15 @@ export const poll: Command = {
       const previousReaction = message.reactions.cache.find(r => r.users.cache.has(user.id) && r.emoji.name !== reaction.emoji.name);
 
       if (previousReaction) {
-        previousReaction.users.remove(user.id)
-          .then(() => {
-            const { name: prevName } = previousReaction.emoji;
-            console.log(`Removed previous reaction ${prevName} from ${user.tag}`);
-
-            if (prevName === '👍') {
-              API.post('/api/removeAgree', message.id);
-              return
-            }
-
-            API.post('/api/removeDisagree', message.id);
-         })
-          .catch(console.error);
+        previousReaction.users.remove(user.id).catch(console.error);
       }
 
       if (name === '👍') {
-        API.post('/api/addAgree', message.id);
+        API.post('/api/addAgree', { id: message.id });
         return;
       }
 
-      API.post('/api/addDisagree', message.id)
+      API.post('/api/addDisagree', { id: message.id })
     });
 
     collector.on('remove', (reaction, user) => {
@@ -118,11 +112,11 @@ export const poll: Command = {
       console.log(`Removed ${reaction.emoji.name} from ${user.tag}`);
 
       if (name === '👍') {
-        API.post('/api/removeAgree', message.id);
+        API.post('/api/removeAgree', { id: message.id });
         return
       }
 
-      API.post('/api/removeDisagree', message.id);
+      API.post('/api/removeDisagree', { id: message.id });
     });
 
     collector.on('end', collected => {

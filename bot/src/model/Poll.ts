@@ -13,7 +13,7 @@ const schema = new mongoose.Schema<Poll>({
   question: { type: String, required: true },
   agree: { type: Number, required: true },
   disagree: { type: Number, required: true },
-  result: { type: String },
+  result: { type: String, required: true },
 });
 
 export const PollModel = mongoose.model<Poll>('Poll', schema);

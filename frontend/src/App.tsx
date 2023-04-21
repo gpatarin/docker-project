@@ -1,47 +1,38 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
 import { fetchPolls } from "./api/poll/poll"
 
+interface Poll {
+  id: string;
+  question: string;
+  agree: number;
+  disagree: number;
+  result: string;
+}
+
+// 👎 👍
+
 function App() {
-  const [count, setCount] = useState(0)
-  const [oe, setOe] = useState([]);
+  const [data, setData] = useState<Poll[]>([]);
 
   useEffect(() => {
     fetchPolls().then((res) => {
       console.log(res);
-      setOe(res);
+      setData(res);
     });
   }, []);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count} and API IS : {import.meta.env.VITE_API_URL}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-
-      <div>
-        {oe.map((r: any) => <h1>{r.id} / {r.agree} / {r.result} </h1>)}
-      </div>
-
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="flex flex-col" >
+      {data.map((poll) => (
+        <div className="flex flex-col items-center bg-white shadow-md rounded-md m-2 p-5">
+          <span className="text-xl font-bold">{poll.question}</span>
+          <div className="w-full flex justify-around text-lg">
+            <div>👍 {poll.agree}</div>
+            <div>👎 {poll.disagree}</div>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }
