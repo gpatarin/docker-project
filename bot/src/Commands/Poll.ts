@@ -64,11 +64,30 @@ export const poll: Command = {
 
     
 
-    const collector = message.createReactionCollector({ filter, time: timer});
+    const collector = message.createReactionCollector({ filter, time: timer, dispose: true});
        
     collector.on('collect', (reaction, user) => {
+       if(user.bot) return;
         console.log(`Collected ${reaction.emoji.name} from ${user.tag}`);
+        
+        const message = reaction.message;
+        
+        // Check if the user has already reacted to another emoji
+        const previousReaction = message.reactions.cache.find(r => r.users.cache.has(user.id) && r.emoji.name !== reaction.emoji.name);
+        
+        if (previousReaction) {
+          previousReaction.users.remove(user.id)
+            .then(() => {
+              console.log(`Removed previous reaction ${previousReaction.emoji.name} from ${user.tag}`);
+            })
+            .catch(console.error);
+        }
+      });
+
+    collector.on('remove', (reaction, user) => {
+        console.log(`Removed ${reaction.emoji.name} from ${user.tag}`);
     });
+    
     collector.on('end', collected => {
         
         console.log("End of collection")
