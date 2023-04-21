@@ -23,6 +23,15 @@ server.listen(PORT, () => {
 console.log(`Listening on :${PORT}`)
 })
 
+server.get('/healthcheck', (req, res) => {
+    if (BOT.readyAt) {
+      res.status(200).send('Bot is ready');
+    } else {
+      res.status(500).send('Bot is not ready');
+    }
+  });
+  
+
 
 
 const BOT = new Client({
