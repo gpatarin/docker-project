@@ -22,13 +22,13 @@ services:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
       - PORT=${BOT_PORT}
       - GUILD_ID=${GUILD_ID}
-      - API_URL=http://api:${API_PORT}
+      - API_URL=${FRONTEND_API_URL}
 
   frontend:
     build:
       context: ./frontend
       args:
-        - VITE_API_URL=${API_URL}:${API_PORT}
+        - VITE_API_URL=${FRONTEND_API_URL}
     image: ynov/frontend
     ports:
       - ${FRONTEND_PORT}:80
